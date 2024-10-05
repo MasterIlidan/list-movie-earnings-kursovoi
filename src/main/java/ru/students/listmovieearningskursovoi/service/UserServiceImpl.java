@@ -10,7 +10,6 @@ import ru.students.listmovieearningskursovoi.entity.User;
 import ru.students.listmovieearningskursovoi.repository.RoleRepository;
 import ru.students.listmovieearningskursovoi.repository.UserRepository;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,16 +31,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
-        user.setName(userDto.getFirstName() + " " + userDto.getLastName());
+        user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
 
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Role role = roleRepository.findByRoleName("READ_ONLY");
         if (role == null) {
-            role = checkRoleExist();
+            role = checkAdminRoleExist();
         }
-        user.setRoles(Arrays.asList(role));
+        user.setRoles(List.of(role));
         userRepository.save(user);
     }
 
@@ -54,21 +53,19 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map((user) -> mapToUserDto(user))
+                .map(this::mapToUserDto)
                 .collect(Collectors.toList());
     }
 
     private UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
-        String[] str = user.getName().split(" ");
-        userDto.setFirstName(str[0]);
-        userDto.setLastName(str[1]);
+        userDto.setUsername(user.getUsername());
         userDto.setEmail(user.getEmail());
         return userDto;
     }
-    private Role checkRoleExist() {
+    private Role checkAdminRoleExist() {
         Role role = new Role();
-        role.setName("ROLE_ADMIN");
+        role.setRoleName("ADMIN");
         return roleRepository.save(role);
     }
 }

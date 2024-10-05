@@ -21,14 +21,23 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((autorize) -> {
-                    autorize
+                .authorizeHttpRequests((authorize) -> {
+                    authorize
                             .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                             .requestMatchers("/register/**").permitAll()
                             .requestMatchers("/login/**").permitAll()
-                            .requestMatchers("/users").hasRole("ADMIN")
+                            .requestMatchers("/index").permitAll()
+                            .requestMatchers("/").permitAll()
+                            .requestMatchers("/users").hasAuthority("ADMIN")
                             .anyRequest().authenticated();
-                });
+
+                }).formLogin(
+                        form -> form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/login")
+                                .defaultSuccessUrl("/list")
+                                .permitAll())
+                .logout(logout -> logout.logoutUrl("/logout").permitAll());
 /*                })
                 .antMatchers("/register/**").permitAll()
                 .antMatchers("/index").permitAll()

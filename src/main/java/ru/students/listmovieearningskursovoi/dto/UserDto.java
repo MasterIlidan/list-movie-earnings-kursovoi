@@ -1,6 +1,7 @@
 package ru.students.listmovieearningskursovoi.dto;
 
 
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -13,11 +14,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
+    @Id
     private Long id;
-    @NotEmpty
-    private String firstName;
-    @NotEmpty
-    private String lastName;
+    @NotEmpty(message = "Username should no be empty")
+    private String username;
     @NotEmpty(message = "Email should not be empty")
     @Email
     private String email;

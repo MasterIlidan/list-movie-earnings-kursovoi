@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 import ru.students.listmovieearningskursovoi.dto.UserDto;
 import ru.students.listmovieearningskursovoi.entity.User;
 import ru.students.listmovieearningskursovoi.service.UserService;
@@ -23,6 +24,11 @@ public class SecurityController {
     }
     @GetMapping("/index")
     public String home() {return "index";}
+
+    @GetMapping("/")
+    public RedirectView homePage() {
+        return new RedirectView("/index");
+    }
 
     @GetMapping("login")
     public String login() {return "login";}

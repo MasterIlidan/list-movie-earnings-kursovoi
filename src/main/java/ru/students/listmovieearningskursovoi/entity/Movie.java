@@ -6,27 +6,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Date;
+
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "STUDENTS")
-public class Student {
+@Table(name = "movies")
+public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "movie_Name")
+    private String movieName;
 
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "release_Date")
+    private Date date;
 
-    @Column(name = "faculty")
-    private String faculty;
+    @Column(name = "earnings")
+    private Float earnings;
 
-    @Column(name = "age")
-    private int age;
+    @Column(name = "currency")
+    private String currency;
+    @Column(name = "add_by")
+    private String addBy;
 }
