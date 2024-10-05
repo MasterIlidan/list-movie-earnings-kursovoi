@@ -40,10 +40,11 @@ public class MovieController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         log.info("auth : {}", auth);
 
-        ModelAndView mav = new ModelAndView("list-movies");
+
         //вывод всех записей если пользователь - администратор
         for (SimpleGrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals("ADMIN")) {
+                ModelAndView mav = new ModelAndView("list-movies-admin");
                 mav.addObject("movies", movieRepository.findAll());
                 return mav;
             }
@@ -54,6 +55,7 @@ public class MovieController {
 
 
         String email = userServiceImpl.findUserByEmail(currentUser.getUsername()).getEmail();
+        ModelAndView mav = new ModelAndView("list-movies");
         mav.addObject("movies", movieRepository.findByAddBy(email));
         log.info("/list -> connection");
 
