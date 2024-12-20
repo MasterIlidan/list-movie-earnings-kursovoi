@@ -39,14 +39,14 @@ navigation">
     <hr/>
     <h3>Добавить лучший фильм</h3>
     <hr/>
-    <form th:action="@{/saveMovie}" th:object="${movie}" method="POST">
-        <input type="text" th:field="*{movieName}" class="form-control col-4 mb-4"
+    <form th:action="@{/userUpdate}" th:object="${user}" method="POST">
+        <input type="text" th:field="*{username}" class="form-control col-4 mb-4"
                placeholder="Введите название фильма"/>
-        <input type="date" th:field="*{date}" class="form-control col-4 mb-4"
+        <input type="date" th:field="*{email}" class="form-control col-4 mb-4"
                placeholder="Выберите дату выхода фильма"/>
-        <input type="text" th:field="*{earnings}" class="form-control col-4 mb-4"
+        <input type="text" th:field="*{roles}" class="form-control col-4 mb-4"
                placeholder="Введите кассовый сбор фильма"/>
-        <input type="text" th:field="*{currency}" class="form-control col-4 mb-4" placeholder="Введите валюту сбора"/>
+
         <button type="submit" class="btn btn-primary col-2">Save</button>
         <input type="hidden" th:field="*{id}"/>
     </form>

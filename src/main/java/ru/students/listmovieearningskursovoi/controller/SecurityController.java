@@ -4,23 +4,31 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.students.listmovieearningskursovoi.dto.UserDto;
+import ru.students.listmovieearningskursovoi.entity.Role;
 import ru.students.listmovieearningskursovoi.entity.User;
+import ru.students.listmovieearningskursovoi.repository.RoleRepository;
 import ru.students.listmovieearningskursovoi.service.UserService;
+import ru.students.listmovieearningskursovoi.service.UserServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class SecurityController {
 
+    private final RoleRepository roleRepository;
+    private final UserServiceImpl userServiceImpl;
     private UserService userService;
 
-    public SecurityController(UserService userService) {
+    public SecurityController(UserService userService, RoleRepository roleRepository, UserServiceImpl userServiceImpl) {
         this.userService = userService;
+        this.roleRepository = roleRepository;
+        this.userServiceImpl = userServiceImpl;
     }
     @GetMapping("/index")
     public String home() {return "index";}
@@ -62,7 +70,36 @@ public class SecurityController {
     @GetMapping("/users")
     public String users(Model model) {
         List<UserDto> users = userService.findAllUsers();
+        List<Role> roles = roleRepository.findAll();
+
         model.addAttribute("users", users);
+        model.addAttribute("roles", roles);
         return "users";
+    }
+    @GetMapping("/roles")
+    public List<Role> roles() {
+        return roleRepository.findAll();
+    }
+    @PostMapping("/userUpdate{email}")
+    public void changeUserRole (@PathVariable String email, @RequestParam List<String> requestRoles) {
+        User user = userService.findUserByEmail(email);
+        List<Role> roles = new ArrayList<>();
+        for (String stringRole: requestRoles) {
+            Role role = new Role(stringRole);
+            roles.add(role);
+        }
+        user.setRoles(roles);
+        userService.saveUser(user);
+    }
+    @GetMapping("/userUpdate{email}")
+    public ModelAndView updateUser (@PathVariable String email) {
+        ModelAndView mav = new ModelAndView("user-edit-form");
+        Optional<User> optionalUser = Optional.ofNullable(userService.findUserByEmail(email));
+        User user = new User();
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+        }
+        mav.addObject("user", user);
+        return mav;
     }
 }

@@ -100,4 +100,8 @@ public class MovieController {
         movieRepository.deleteById(movieId);
         return "redirect:/list";
     }
+    @GetMapping("/about")
+    public String about(){
+        return "redirect:/about";
+    }
 }
