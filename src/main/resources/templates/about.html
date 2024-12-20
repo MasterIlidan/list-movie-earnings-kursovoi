@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 <head>
   <meta charset="UTF-8">
   <title>Список лучших фильмов</title>
   <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css
-"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
-          integrity="sha384-
-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 </head>
 <body>
@@ -26,23 +23,23 @@ EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a sec:authorize="not isAuthenticated()" class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
-          <a sec:authentication="name" th:class="nav-link"></a>
+          <a class="nav-link active" aria-current="page"
+             th:href="@{/login}">Войти</a>
         </li>
         <li class="nav-item">
-          <a sec:authorize="not isAuthenticated()" class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
-          <form sec:authorize="isAuthenticated()" th:class="nav-link" th:action="@{/logout}" th:method="post">
-            <input th:class="nav-link" type="submit" value="Выйти">
-          </form>
+          <a class="nav-link active" aria-current="page"
+             th:href="@{/register}">Зарегистрироваться</a>
         </li>
-      </ul>
+        </ul>
     </div>
   </div>
 </nav>
 <br/><br/>
 <div class="container">
   <div class="row">
-    <h1 class="text-center"> Список лучших фильмов </h1>
+    <h1 class="text-center">Список лучших фильмов!</h1>
+    <h2 class="text-center">Разработчик: Мильков Сергей Владимирович</h2>
+    <h3 class="text-center">Группа РИЗ-210938у</h3>
   </div>
   <div class="fixed-bottom border-top">
     <p class="text-center">about</p>

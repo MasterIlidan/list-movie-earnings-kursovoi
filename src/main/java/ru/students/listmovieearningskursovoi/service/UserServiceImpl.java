@@ -10,6 +10,7 @@ import ru.students.listmovieearningskursovoi.entity.User;
 import ru.students.listmovieearningskursovoi.repository.RoleRepository;
 import ru.students.listmovieearningskursovoi.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -61,6 +67,11 @@ public class UserServiceImpl implements UserService {
         UserDto userDto = new UserDto();
         userDto.setUsername(user.getUsername());
         userDto.setEmail(user.getEmail());
+        List<String> roles = new ArrayList<>();
+        for (Role role:user.getRoles()) {
+            roles.add(role.getRoleName());
+        }
+        userDto.setRoles(roles);
         return userDto;
     }
     private Role checkAdminRoleExist() {

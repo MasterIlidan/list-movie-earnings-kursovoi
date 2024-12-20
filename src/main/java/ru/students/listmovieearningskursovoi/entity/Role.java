@@ -22,6 +22,11 @@ public class Role {
     @Column(nullable = false, unique = true, name = "role_Name")
     private String roleName;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users = new ArrayList<>();
+   /* @ManyToMany(mappedBy = "roles")
+    private List<User> users = new ArrayList<>();*/
+
+    @Override
+    public String toString() {
+        return getRoleName();
+    }
 }
