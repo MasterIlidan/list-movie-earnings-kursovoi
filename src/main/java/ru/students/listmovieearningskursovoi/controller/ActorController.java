@@ -87,7 +87,7 @@ public class ActorController {
     @GetMapping("/addActorForm")
     public ModelAndView addStudentForm() {
         ModelAndView mav = new ModelAndView("add-actor-form");
-        MovieActors movieActor = new MovieActors(null, "");
+        MovieActors movieActor = new MovieActors( null, "");
         mav.addObject("actor", movieActor);
         return mav;
     }
