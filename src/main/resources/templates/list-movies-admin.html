@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">Student Management System</a>
+        <a class="navbar-brand" th:href="@{/index}">Список лучших фильмов</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bstarget="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle
 navigation">
@@ -45,7 +45,6 @@ navigation">
             <th>Название</th>
             <th>Дата выхода</th>
             <th>Кассовые сборы</th>
-            <th>Добавил</th>
         </tr>
         </thead>
         <tbody>
@@ -53,16 +52,16 @@ navigation">
             <td th:text="${movie.movieName}"/>
             <td th:text="${movie.date}"/>
             <td th:text="${movie.earnings + ' ' + movie.currency}"/>
-            <td th:text="${movie.addBy}"/>
             <td>
-                <a th:href="@{/showUpdateForm(movieId=${movie.id})}" class="btn btninfo">Update</a>
+                <a th:href="@{/showUpdateMovieForm(movieId=${movie.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/deleteMovie(movieId=${movie.id})}" class="btn btn-danger ml2">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
-    <div class="fixed-bottom border-top">
-        <p class="text-center">about</p>
+
+    <div class="fixed-bottom border-top" >
+        <p  class="text-center" th:href="@{/register}">about</p>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

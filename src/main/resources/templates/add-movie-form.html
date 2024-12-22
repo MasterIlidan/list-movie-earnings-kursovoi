@@ -46,9 +46,15 @@ navigation">
                placeholder="Выберите дату выхода фильма"/>
         <input type="text" th:field="*{earnings}" class="form-control col-4 mb-4"
                placeholder="Введите кассовый сбор фильма"/>
-        <input type="text" th:field="*{currency}" class="form-control col-4 mb-4" placeholder="Введите валюту сбора"/>
+        <label>
+            <select type="text" th:field="*{currency}" class="form-control col-4 mb-4" label="Введите валюту сбора">
+                <option th:value="currency" th:each="currency : ${currencies}"></option>
+            </select>
+        </label>
+        <input type="text" th:field="*{actors}" class="form-control col-4 mb-4" placeholder="Список актеров">
         <button type="submit" class="btn btn-primary col-2">Save</button>
         <input type="hidden" th:field="*{id}"/>
+
     </form>
     <hr/>
     <a th:href="@{/list}">Назад к списку</a>

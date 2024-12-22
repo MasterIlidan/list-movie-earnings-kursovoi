@@ -37,30 +37,37 @@ navigation">
 </nav>
 <div class="container">
     <hr/>
-    <a th:href="@{/addMovieForm}" class="btn btn-primary">Добавить фильм</a>
+    <a th:href="@{/addActorForm}" class="btn btn-primary">Добавить актера</a>
     <br/><br/>
     <table class="table table-bordered table-striped" id="movieTable">
         <thead>
         <tr>
-            <th>Название</th>
-            <th>Дата выхода</th>
-            <th>Кассовые сборы</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Дата рождения</th>
+            <th>Описание</th>
+            <th>В каких фильмах играл</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="movie: ${movies}">
-            <td th:text="${movie.movieName}"/>
-            <td th:text="${movie.date}"/>
-            <td th:text="${movie.earnings + ' ' + movie.currency}"/>
+        <tr th:each="actor: ${actors}">
+            <td th:text="${actor.firstname}"/>
+            <td th:text="${actor.lastname}"/>
+            <td th:text="${actor.birthday}"/>
+            <td th:text="${actor.description}"/>
+            <td th:each="movie : ${actor.movies}">
+                <span th:value="movie"></span>
+            </td>
             <td>
-                <a th:href="@{/showUpdateMovieForm(movieId=${movie.id})}" class="btn btn-info">Update</a>
-                <a th:href="@{/deleteMovie(movieId=${movie.id})}" class="btn btn-danger ml2">Delete</a>
+                <a th:href="@{/showUpdateActorForm(actorId=${actor.id})}" class="btn btn-info">Update</a>
+                <a th:href="@{/deleteActor(actorId=${actor.id})}" class="btn btn-danger ml2">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
     <div class="fixed-bottom border-top" >
-        <p  class="text-center" th:href="@{/register}">about</p>
+        <p  class="text-center" th:href="@{/about}">about</p>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
