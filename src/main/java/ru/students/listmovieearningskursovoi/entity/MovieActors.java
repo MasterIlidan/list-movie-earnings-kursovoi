@@ -19,7 +19,7 @@ import java.util.List;
 @Table(name = "movies_actors")
 public class MovieActors {
     @Column(name = "movie")
-    private List<Long> movieId;
+    private String movieId;
     @Id
     @Column(name = "actor")
     private String actor;

@@ -48,7 +48,7 @@ navigation">
                placeholder="Введите кассовый сбор фильма"/>
         <label>
             <select type="text" th:field="*{currency}" class="form-control col-4 mb-4" label="Введите валюту сбора">
-                <option th:value="currency" th:each="currency : ${currencies}"></option>
+                <option th:each="availCurrency : ${currencies}" th:value="${availCurrency.getCurrency()}" th:text="${availCurrency.getCurrency()}"></option>
             </select>
         </label>
         <input type="text" th:field="*{actors}" class="form-control col-4 mb-4" placeholder="Список актеров">

@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Список лучших фильмов</title>
+    <title>Список лучших актеров</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -37,32 +37,26 @@ navigation">
 </nav>
 <div class="container">
     <hr/>
-    <a th:href="@{/addActorForm}" class="btn btn-primary">Добавить актера</a>
+    <!--<a th:href="@{/addActorForm}" class="btn btn-primary">Добавить актера</a>-->
     <br/><br/>
     <table class="table table-bordered table-striped" id="movieTable">
         <thead>
         <tr>
-            <th>Имя</th>
-            <th>Фамилия</th>
-            <th>Дата рождения</th>
-            <th>Описание</th>
+            <th>Актер</th>
             <th>В каких фильмах играл</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="actor: ${actors}">
-            <td th:text="${actor.firstname}"/>
-            <td th:text="${actor.lastname}"/>
-            <td th:text="${actor.birthday}"/>
-            <td th:text="${actor.description}"/>
-            <td th:each="movie : ${actor.movies}">
-                <span th:value="movie"></span>
+        <tr th:each="actor: ${actors.keySet()}">
+            <td th:text="${actor}"/>
+            <td th:each="movie : ${actors.get(actor)}">
+                <span th:text="*{movie}"></span>
             </td>
-            <td>
-                <a th:href="@{/showUpdateActorForm(actorId=${actor.id})}" class="btn btn-info">Update</a>
-                <a th:href="@{/deleteActor(actorId=${actor.id})}" class="btn btn-danger ml2">Delete</a>
-            </td>
+<!--            <td>-->
+<!--                <a th:href="@{/showUpdateActorForm(actorId=${actor})}" class="btn btn-info">Update</a>-->
+<!--                <a th:href="@{/deleteActor(actorId=${actor})}" class="btn btn-danger ml2">Delete</a>-->
+<!--            </td>-->
         </tr>
         </tbody>
     </table>
