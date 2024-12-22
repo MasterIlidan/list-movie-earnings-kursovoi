@@ -45,6 +45,7 @@ navigation">
             <th>Название</th>
             <th>Дата выхода</th>
             <th>Кассовые сборы</th>
+            <th>Добавил</th>
         </tr>
         </thead>
         <tbody>
@@ -52,6 +53,7 @@ navigation">
             <td th:text="${movie.movieName}"/>
             <td th:text="${movie.date}"/>
             <td th:text="${movie.earnings + ' ' + movie.currency}"/>
+            <td th:text="${movie.addBy}"/>
             <td>
                 <a th:href="@{/showUpdateMovieForm(movieId=${movie.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/deleteMovie(movieId=${movie.id})}" class="btn btn-danger ml2">Delete</a>
