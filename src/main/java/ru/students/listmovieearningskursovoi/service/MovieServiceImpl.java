@@ -21,31 +21,22 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void save(Movie movie) {
+
+        movieRepository.save(movie);
+
         for (String actor : movie.getActors().split(",")) {
             actor = actor.trim();
-            Optional<MovieActors> optionalMovieActor = actorRepository.findById(actor);
-            MovieActors movieActor;
-            if (optionalMovieActor.isPresent()) {
-                movieActor = optionalMovieActor.get();
-                String movies = movieActor.getMovieId();
-                String[] moviesArr = movies.split(",");
-                boolean existFlag = false;
-                for (String movieInList : moviesArr) {
-                    if (movieInList.equals(movie.getId() + "")) {
-                        existFlag = true;
-                        break;
-                    }
-                }
-                if (!existFlag) {
-                    movies += ",%s".formatted(movie.getId());
-                    movieActor.setMovieId(movies);
-                }
-            } else {
-                movieActor = new MovieActors("" + movie.getId(), actor);
+            String finalActor = actor;
+            boolean isFound = actorRepository.findAllById(List.of(movie.getId())).stream().anyMatch(x ->
+                    x.getActor().equals(finalActor));
+
+            if (!isFound) {
+                MovieActors movieActor = new MovieActors(movie.getId(), actor);
+
+                actorRepository.save(movieActor);
             }
-            actorRepository.save(movieActor);
+
         }
-        movieRepository.save(movie);
     }
 
     @Override

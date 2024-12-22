@@ -19,6 +19,7 @@ import ru.students.listmovieearningskursovoi.entity.User;
 import ru.students.listmovieearningskursovoi.repository.ActorRepository;
 import ru.students.listmovieearningskursovoi.repository.CurrencyRepository;
 import ru.students.listmovieearningskursovoi.repository.MovieRepository;
+import ru.students.listmovieearningskursovoi.service.ActorServiceImpl;
 import ru.students.listmovieearningskursovoi.service.MovieServiceImpl;
 import ru.students.listmovieearningskursovoi.service.UserServiceImpl;
 
@@ -38,6 +39,10 @@ public class MovieController {
     private CurrencyRepository currencyRepository;
     @Autowired
     private MovieServiceImpl movieServiceImpl;
+    @Autowired
+    private ActorRepository actorRepository;
+    @Autowired
+    private ActorServiceImpl actorServiceImpl;
 
     @GetMapping({"/list"})
     public ModelAndView getAllStudents() {
@@ -104,7 +109,6 @@ public class MovieController {
             movie = optionalMovie.get();
         }
         mav.addObject("movie", movie);
-//TODO: не тянет из бд
         List<Currency> currencies = currencyRepository.findAll();
         mav.addObject("currencies", currencies);
         return mav;
@@ -112,6 +116,8 @@ public class MovieController {
 
     @GetMapping("/deleteMovie")
     public String deleteStudent(@RequestParam Long movieId) {
+        actorServiceImpl.deleteAllMovieActorsByMovieId(movieId);
+        //actorRepository.deleteAllByMovieId(movieId);
         movieServiceImpl.deleteMovie(movieId);
         return "redirect:/list";
     }
