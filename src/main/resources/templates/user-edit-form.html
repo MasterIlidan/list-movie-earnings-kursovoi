@@ -44,7 +44,7 @@ navigation">
                placeholder="Введите название фильма"/>
         <input type="text" th:field="*{email}" class="form-control col-4 mb-4"
                placeholder="Выберите дату выхода фильма"/>
-        <select th:field="*{roles}" th:value="1" >
+        <select th:field="*{role}" th:value="${user.getRole}" >
             <option th:each="role : ${roleNames}" th:value="${role}" th:text="${role}"></option>
         </select>
 

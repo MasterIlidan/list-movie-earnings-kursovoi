@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.students.listmovieearningskursovoi.dto.UserDto;
+import ru.students.listmovieearningskursovoi.dto.UserUpdate;
 import ru.students.listmovieearningskursovoi.entity.Role;
 import ru.students.listmovieearningskursovoi.entity.User;
 import ru.students.listmovieearningskursovoi.repository.RoleRepository;
@@ -91,22 +92,25 @@ public class SecurityController {
     }
 
     @PostMapping("/userUpdate")
-    public void changeUserRole(@ModelAttribute User user) {
-        if (user == null) return;
-        Optional<User> optionalUser = userService.findUserById(user.getId());
+    public String changeUserRole(@ModelAttribute UserUpdate userUpdate) {
+        if (userUpdate == null) return "redirect:/users";
+        Optional<User> optionalUser = userService.findUserById(userUpdate.getId());
         User existingUser;
         if (optionalUser.isPresent()) {
             existingUser = optionalUser.get();
         } else {
-            return;
+            return "redirect:/users";
         }
-        existingUser.setRoles(user.getRoles());
+        List<Role> roles = existingUser.getRoles();
+        roles.set(0, new Role(userUpdate.getRole()));
+        existingUser.setRoles(existingUser.getRoles());
         //List<Role> roles = new ArrayList<>();
 
         //Role role = new Role(requestRoles);
         //roles.add(role);
         //user.setRoles(roles);
         userService.saveUser(existingUser);
+        return "redirect:/users";
     }
 
     @GetMapping("/userUpdate{id}")
@@ -117,12 +121,17 @@ public class SecurityController {
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
         }
+        UserUpdate userUpdate = new UserUpdate();
 
+        userUpdate.setId(user.getId());
+        userUpdate.setUsername(user.getUsername());
+        userUpdate.setEmail(user.getEmail());
+        userUpdate.setRole(user.getRoles().get(0).getRoleName());
         //String[] roleNames = {"ADMIN", "USER", "READ_ONLY"};
         List<String> roleNames = List.of(new String[]{"ADMIN", "USER", "READ_ONLY"});
 
         mav.addObject("roleNames", roleNames);
-        mav.addObject("user", user);
+        mav.addObject("user", userUpdate);
         return mav;
     }
 }
