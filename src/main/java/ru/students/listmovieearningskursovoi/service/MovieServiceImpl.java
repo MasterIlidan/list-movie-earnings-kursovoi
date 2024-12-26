@@ -27,7 +27,7 @@ public class MovieServiceImpl implements MovieService {
         for (String actor : movie.getActors().split(",")) {
             actor = actor.trim();
             String finalActor = actor;
-            List<MovieActors> allById = actorRepository.findAllById(List.of(movie.getId()));
+            List<MovieActors> allById = actorRepository.findAllByMovieId(movie.getId());
             boolean isFound = allById.stream().anyMatch(x ->
                     x.getActor().equals(finalActor));
 

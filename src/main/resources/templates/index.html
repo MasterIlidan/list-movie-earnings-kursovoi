@@ -27,7 +27,7 @@ EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a sec:authorize="not isAuthenticated()" class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
-          <a sec:authentication="name" th:class="nav-link"></a>
+          <a sec:authorize="not isAnonymous()" sec:authentication="name" th:class="nav-link"></a>
         </li>
         <li class="nav-item">
           <a sec:authorize="not isAuthenticated()" class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
@@ -45,12 +45,10 @@ EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
     <h1 class="text-center"> Список лучших фильмов </h1>
     <a class="text-center" th:href="@{/list}">К списку фильмов</a>
     <a class="text-center" th:href="@{/actorlist} ">К списку актеров</a>
+    <a sec:authorize="hasAuthority('ADMIN')" class="text-center"  th:href="@{/users} ">К списку пользователей</a>
   </div>
   <div class="fixed-bottom border-top">
-    <p class="text-center">about</p>
-  </div>
-  <div class="fixed-bottom border-top">
-    <p class="text-center">about</p>
+    <a class="text-center" th:href="@{/about}">about</a>
   </div>
 </div>
 </body>

@@ -37,7 +37,7 @@ navigation">
 </nav>
 <div class="container">
     <hr/>
-    <a th:href="@{/addMovieForm}" class="btn btn-primary">Добавить фильм</a>
+    <a sec:authorize="hasAnyAuthority('ADMIN', 'USER')" th:href="@{/addMovieForm}" class="btn btn-primary">Добавить фильм</a>
     <br/><br/>
     <table class="table table-bordered table-striped" id="movieTable">
         <thead>
@@ -59,9 +59,9 @@ navigation">
         </tr>
         </tbody>
     </table>
-    <div class="fixed-bottom border-top" >
-        <p  class="text-center" th:href="@{/register}">about</p>
-    </div>
+  <div class="fixed-bottom border-top">
+    <a class="text-center" th:href="@{/about}">about</a>
+  </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt1.10.25/datatables.min.js"></script>

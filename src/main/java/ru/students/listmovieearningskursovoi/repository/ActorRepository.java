@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ActorRepository extends JpaRepository<MovieActors, Long> {
+public interface ActorRepository extends JpaRepository<MovieActors, String> {
 
     Optional<MovieActors> findByMovieId(Long movieId);
-
+    List<MovieActors> findAllByMovieId(Long movieId);
     void deleteAllByMovieId(Long movieId);
 }

@@ -134,4 +134,8 @@ public class SecurityController {
         mav.addObject("user", userUpdate);
         return mav;
     }
+    @GetMapping("/about")
+    public String about(){
+        return "/about";
+    }
 }

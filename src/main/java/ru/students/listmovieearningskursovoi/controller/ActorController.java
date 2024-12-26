@@ -94,7 +94,7 @@ public class ActorController {
 
     @GetMapping("/deleteActor")
     public String deleteActor(@RequestParam Long actor) {
-        actorRepository.deleteById(actor);
+        actorRepository.deleteById(String.valueOf(actor));
         return "redirect:/actorlist";
     }
 
