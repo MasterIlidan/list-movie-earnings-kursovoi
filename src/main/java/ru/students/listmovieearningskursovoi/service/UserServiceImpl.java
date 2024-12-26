@@ -12,6 +12,7 @@ import ru.students.listmovieearningskursovoi.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,6 +57,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
@@ -67,6 +73,7 @@ public class UserServiceImpl implements UserService {
         UserDto userDto = new UserDto();
         userDto.setUsername(user.getUsername());
         userDto.setEmail(user.getEmail());
+        userDto.setId(user.getId());
         List<String> roles = new ArrayList<>();
         for (Role role:user.getRoles()) {
             roles.add(role.getRoleName());

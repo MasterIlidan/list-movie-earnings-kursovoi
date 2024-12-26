@@ -14,30 +14,7 @@ EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 </head>
 <body>
-<script>
-  $(document).ready(function () {
-    $("#movieTable").DataTable({
-      'aoColumnDefs': [{
-        'bSortable': false,
-        'aTargets': [-1] /* 1st one, start by the right */
-      }]
-    });
-  })
-  function sent(email) {
 
-    $.ajax({
-      type: "POST",
-      url: "user?=" + email,
-      data: "clientData="+clientData,
-      success: function(response){
-        console.log("success", response)
-      },
-      error: function(error){
-        console.log("error", error)
-      }
-    });
-  }
-</script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" th:href="@{/index}">Registration and Login
@@ -67,8 +44,8 @@ EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
   <div class="row col-md-10">
     <h2>List of Registered Users</h2>
   </div>
-  <form role="form"  th:action="@{/users}" method="post">
-  <table class="table table-bordered table-hover">
+
+    <table class="table table-bordered table-hover">
     <thead class="table-dark">
     <tr>
       <th>username</th>
@@ -77,18 +54,22 @@ EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
+        <td th:hidden="${user.id}"></td>
       <td th:text="${user.username}"></td>
       <td th:text="${user.email}"></td>
-      <td th:each="userRoles : ${user.getRoles()}">
-      <td>
-        <a th:href="@{/userUpdate(email=${user.email})}" class="btn btn-info">Update</a>
+      <td  th:each="userRoles : ${user.getRoles()}">
+        <select th:value="${userRoles}">
+          <option th:each="role : ${roleNames}" th:text="${role}"></option>
+        </select>
       </td>
+      <td>
+        <a  class="btn btn-info" th:href="@{/userUpdate(id=${user.id})}">Update</a>
       </td>
 
     </tr>
     </tbody>
   </table>
-  </form>
+
   <div class="fixed-bottom border-top">
     <p class="text-center">about</p>
   </div>

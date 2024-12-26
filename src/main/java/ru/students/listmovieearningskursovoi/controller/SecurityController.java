@@ -30,8 +30,11 @@ public class SecurityController {
         this.roleRepository = roleRepository;
         this.userServiceImpl = userServiceImpl;
     }
+
     @GetMapping("/index")
-    public String home() {return "index";}
+    public String home() {
+        return "index";
+    }
 
     @GetMapping("/")
     public RedirectView homePage() {
@@ -39,12 +42,14 @@ public class SecurityController {
     }
 
     @GetMapping("login")
-    public String login() {return "login";}
+    public String login() {
+        return "login";
+    }
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         UserDto user = new UserDto();
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "/register";
     }
 
@@ -54,7 +59,7 @@ public class SecurityController {
                                Model model) {
         User existingUser = userService.findUserByEmail(userDto.getEmail());
 
-        if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
+        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null,
                     "User with this email already exist");
         }
@@ -72,33 +77,51 @@ public class SecurityController {
         List<UserDto> users = userService.findAllUsers();
         List<Role> roles = roleRepository.findAll();
 
+        String[] roleNames = {"ADMIN", "USER", "READ_ONLY"};
+
+        model.addAttribute("roleNames", roleNames);
         model.addAttribute("users", users);
         model.addAttribute("roles", roles);
         return "users";
     }
+
     @GetMapping("/roles")
     public List<Role> roles() {
         return roleRepository.findAll();
     }
-    @PostMapping("/userUpdate{email}")
-    public void changeUserRole (@PathVariable String email, @RequestParam List<String> requestRoles) {
-        User user = userService.findUserByEmail(email);
-        List<Role> roles = new ArrayList<>();
-        for (String stringRole: requestRoles) {
-            Role role = new Role(stringRole);
-            roles.add(role);
+
+    @PostMapping("/userUpdate")
+    public void changeUserRole(@ModelAttribute User user) {
+        if (user == null) return;
+        Optional<User> optionalUser = userService.findUserById(user.getId());
+        User existingUser;
+        if (optionalUser.isPresent()) {
+            existingUser = optionalUser.get();
+        } else {
+            return;
         }
-        user.setRoles(roles);
-        userService.saveUser(user);
+        existingUser.setRoles(user.getRoles());
+        //List<Role> roles = new ArrayList<>();
+
+        //Role role = new Role(requestRoles);
+        //roles.add(role);
+        //user.setRoles(roles);
+        userService.saveUser(existingUser);
     }
-    @GetMapping("/userUpdate{email}")
-    public ModelAndView updateUser (@PathVariable String email) {
+
+    @GetMapping("/userUpdate{id}")
+    public ModelAndView updateUser(@RequestParam @PathVariable Long id) {
         ModelAndView mav = new ModelAndView("user-edit-form");
-        Optional<User> optionalUser = Optional.ofNullable(userService.findUserByEmail(email));
+        Optional<User> optionalUser = userService.findUserById(id);
         User user = new User();
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
         }
+
+        //String[] roleNames = {"ADMIN", "USER", "READ_ONLY"};
+        List<String> roleNames = List.of(new String[]{"ADMIN", "USER", "READ_ONLY"});
+
+        mav.addObject("roleNames", roleNames);
         mav.addObject("user", user);
         return mav;
     }
